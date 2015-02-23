@@ -1,11 +1,11 @@
 # Health-Management-System
 
-Project Summary
+
 The Syracuse university health services is a 24x7 organization of its own. It provides a variety of services to the university students and also to the Syracuse community. They provide general healthcare services, immunization services, advanced diagnostics and also recommend doctors for better treatment.SU health services is the go-to place for medical and emergency services for students and professors.
 SU health also regularly conducts awareness campaigns and provides free health services such as flu shots to students. They have connections with a number of doctors and hospitals in the NY state and can recommend students to specific health treatment plans. They have highly qualified doctors, nurses who are experienced in providing high quality healthcare.
 The Current system captures the student personal details and immunization records. But this information alone is insufficient to make a difference in the way the medicines are prescribed. By knowing the medical history of students from the Crouse Hospital and medicine records from CVS Health, better medicines can be prescribed specific to that particular patient. 
 
-Description
+Description:
 The SUID card can be used as a universal barcode for Syracuse students. It contains all the required personal details of the students. 
 
 SU Medical Health
