@@ -1,0 +1,121 @@
+Option Compare Database
+
+
+
+
+
+
+
+Private Sub Command82_Click()
+If (IsNull(Me.crouse.Value) Or IsNull(Me.crouse_form.Value)) Then
+MsgBox "select the required values"
+Else
+DoCmd.OpenForm Me.crouse_form.Value, , , "crouse_Appointmentid=Forms![Main]![crouse]"
+If IsNull(Screen.ActiveForm.crouse_Appointmentid.Value) Then
+MsgBox "Records doesn't exist"
+End If
+End If
+End Sub
+
+-------------------------------
+
+Private Sub Form_Load()
+
+Dim app As String
+app = "select dbo_SU_Health.su_Appointmentid FROM dbo_SU_Health WHERE dbo_SU_Health.su_Id= [Forms]![Main]![su_Id]"
+Me.su_Appointment_combo.RowSource = app
+End Sub
+
+------------------------------
+Private Sub Generate_Crouse_Report_Click()
+
+If (IsNull(Me.crouse.Value) Or IsNull(Me.crouse_form.Value)) Then
+MsgBox "select the required values"
+Else
+DoCmd.OpenReport Me.crouse_form.Value, acViewPreview, , "crouse_Appointmentid=Forms![Main]![crouse]"
+End If
+End Sub
+
+-----------------------------
+
+Private Sub Generate_CVS_Report_Click()
+
+If (IsNull(Me.cvs.Value) Or IsNull(Me.cvs_form.Value)) Then
+MsgBox "select the required values"
+Else
+DoCmd.OpenReport Me.cvs_form.Value, acViewPreview, , "transaction_Id=Forms![Main]![cvs]"
+End If
+End Sub
+
+-----------------------------
+
+Private Sub Generate_SU_Report_Click()
+
+If (IsNull(Me.su_Appointment_combo.Value) Or IsNull(Me.SU_param.Value)) Then
+MsgBox "select the required values"
+
+Else
+
+DoCmd.OpenReport Me.SU_param.Value, acViewPreview, , "su_Appointmentid=Forms![Main]![su_Appointment_combo]"
+End If
+End Sub
+
+-----------------------------
+
+Private Sub Go_Click()
+If (IsNull(Me.cvs.Value) Or IsNull(Me.cvs_form.Value)) Then
+MsgBox "select the required values"
+Else
+DoCmd.OpenForm Me.cvs_form.Value, , , "transaction_Id=Forms![Main]![cvs]"
+If IsNull(Screen.ActiveForm.transaction_Id.Value) Then
+MsgBox "Records doesn't exist"
+End If
+End If
+End Sub
+
+Private Sub Search_Click()
+If IsNull(Me.su_Id.Value) Then
+MsgBox "Enter Student id"
+Else
+DoCmd.OpenForm "dbo_Student", , , "su_Id = Forms![Main]![su_Id]"
+If IsNull(Forms![dbo_Student]![su_Id]) Then
+MsgBox "Student id not in database"
+End If
+End If
+End Sub
+
+--------------------------
+Private Sub Search_History_Click()
+
+If (IsNull(Me.su_Appointment_combo.Value) Or IsNull(Me.SU_param.Value)) Then
+MsgBox "select the required values"
+
+Else
+
+DoCmd.OpenForm Me.SU_param.Value, , , "su_Appointmentid = Forms![Main]![su_Appointment_combo]"
+If IsNull(Screen.ActiveForm.su_Appointmentid.Value) Then
+MsgBox "Records doesn't exist"
+End If
+
+End If
+End Sub
+
+-----------------------------
+
+Private Sub su_Id_AfterUpdate()
+Dim app As String
+Me.su_Appointment_combo = Null
+app = "select dbo_SU_Health.su_Appointmentid FROM dbo_SU_Health WHERE dbo_SU_Health.su_Id= [Forms]![Main]![su_Id]"
+Me.su_Appointment_combo.RowSource = app
+
+Dim crouse_app As String
+Me.crouse = Null
+crouse_app = "select dbo_Crouse.crouse_Appointmentid FROM dbo_Crouse WHERE dbo_Crouse.su_Id=[Forms]![Main]![su_Id]"
+Me.crouse.RowSource = crouse_app
+
+
+Dim cvs As String
+Me.cvs = Null
+cvs = "select dbo_CVS_Transaction.transaction_Id FROM dbo_CVS_Transaction WHERE dbo_CVS_Transaction.su_Id=[Forms]![Main]![su_Id]"
+Me.cvs.RowSource = cvs
+End Sub
