@@ -1,0 +1,410 @@
+
+CREATE TABLE Student(
+
+su_Id INTEGER PRIMARY KEY,
+first_Name VARCHAR(20) NOT NULL ,
+last_Name VARCHAR(20),
+age INTEGER NOT NULL,
+sex VARCHAR(20) NOT NULL,
+email VARCHAR(20) NOT NULL,
+phone VARCHAR(20) NOT NULL
+)
+
+CREATE TABLE SU_Health(
+
+su_Appointmentid INTEGER PRIMARY KEY,
+date VARCHAR(20) NOT NULL,
+doctor_Name VARCHAR(20) NOT NULL,
+su_Id INTEGER NOT NULL FOREIGN KEY REFERENCES Student(su_Id)
+)
+
+CREATE TABLE Crouse(
+
+crouse_Appointmentid INTEGER PRIMARY KEY,
+date VARCHAR(20) NOT NULL,
+doctor_Name VARCHAR(20) NOT NULL,
+su_Id INTEGER NOT NULL FOREIGN KEY REFERENCES Student(su_Id)
+)
+
+CREATE TABLE CVS_Transaction(
+
+transaction_Id INTEGER PRIMARY KEY,
+date VARCHAR(20) NOT NULL,
+su_Id INTEGER NOT NULL FOREIGN KEY REFERENCES Student(su_Id)
+
+)
+
+CREATE TABLE Symptom_SU(
+
+symptom_Id INTEGER,
+su_Appointmentid INTEGER FOREIGN KEY REFERENCES SU_Health(su_Appointmentid),
+description VARCHAR(50) NOT NULL
+)
+
+CREATE TABLE Allergy_SU(
+
+allergy_Id INTEGER,
+su_Appointmentid INTEGER FOREIGN KEY REFERENCES SU_Health(su_Appointmentid),
+description VARCHAR(50) NOT NULL
+)
+
+CREATE TABLE Treatment_SU(
+
+treatment_Id INTEGER,
+su_Appointmentid INTEGER FOREIGN KEY REFERENCES SU_Health(su_Appointmentid),
+description VARCHAR(50) NOT NULL
+)
+
+CREATE TABLE Condition_SU(
+
+condition_Id INTEGER,
+su_Appointmentid INTEGER FOREIGN KEY REFERENCES SU_Health(su_Appointmentid),
+description VARCHAR(50) NOT NULL
+)
+
+
+
+CREATE TABLE Payment_SU(
+
+payment_Id INTEGER,
+su_Appointmentid INTEGER FOREIGN KEY REFERENCES SU_Health(su_Appointmentid),
+payment_Type VARCHAR(20) NOT NULL,
+amount INTEGER NOT NULL
+)
+
+
+
+CREATE TABLE Symptom_Crouse(
+
+symptom_Id INTEGER,
+crouse_Appointmentid INTEGER FOREIGN KEY REFERENCES Crouse(crouse_Appointmentid),
+description VARCHAR(50) NOT NULL
+)
+
+CREATE TABLE Allergy_Crouse(
+
+allergy_Id INTEGER,
+crouse_Appointmentid INTEGER FOREIGN KEY REFERENCES Crouse(crouse_Appointmentid),
+description VARCHAR(50) NOT NULL
+)
+
+CREATE TABLE Treatment_Crouse(
+
+treatment_Id INTEGER,
+crouse_Appointmentid INTEGER FOREIGN KEY REFERENCES Crouse(crouse_Appointmentid),
+description VARCHAR(50) NOT NULL
+)
+
+CREATE TABLE Condition_Crouse(
+
+condition_Id INTEGER,
+crouse_Appointmentid INTEGER FOREIGN KEY REFERENCES Crouse(crouse_Appointmentid),
+description VARCHAR(50) NOT NULL
+)
+
+
+
+CREATE TABLE Payment_Crouse(
+
+payment_Id INTEGER,
+crouse_Appointmentid INTEGER FOREIGN KEY REFERENCES Crouse(crouse_Appointmentid),
+payment_Type VARCHAR(20) NOT NULL,
+amount INTEGER NOT NULL
+)
+
+
+ALTER TABLE Symptom_SU 
+ALTER COLUMN su_Appointmentid INTEGER NOT NULL
+
+ALTER TABLE Allergy_SU 
+ALTER COLUMN su_Appointmentid INTEGER NOT NULL
+
+ALTER TABLE Payment_SU 
+ALTER COLUMN su_Appointmentid INTEGER NOT NULL
+
+ALTER TABLE Treatment_SU 
+ALTER COLUMN su_Appointmentid INTEGER NOT NULL
+
+ALTER TABLE Condition_SU 
+ALTER COLUMN su_Appointmentid INTEGER NOT NULL
+
+
+ALTER TABLE Symptom_Crouse 
+ALTER COLUMN crouse_Appointmentid INTEGER NOT NULL
+
+ALTER TABLE Allergy_Crouse 
+ALTER COLUMN crouse_Appointmentid INTEGER NOT NULL
+
+ALTER TABLE Payment_Crouse 
+ALTER COLUMN crouse_Appointmentid INTEGER NOT NULL
+
+ALTER TABLE Treatment_Crouse 
+ALTER COLUMN crouse_Appointmentid INTEGER NOT NULL
+
+ALTER TABLE Condition_Crouse 
+ALTER COLUMN crouse_Appointmentid INTEGER NOT NULL
+
+
+ALTER TABLE Symptom_SU 
+ALTER COLUMN symptom_Id INTEGER NOT NULL
+
+ALTER TABLE Allergy_SU 
+ALTER COLUMN allergy_Id INTEGER NOT NULL
+
+ALTER TABLE Payment_SU 
+ALTER COLUMN payment_Id INTEGER NOT NULL
+
+ALTER TABLE Treatment_SU 
+ALTER COLUMN treatment_Id INTEGER NOT NULL
+
+ALTER TABLE Condition_SU 
+ALTER COLUMN condition_Id INTEGER NOT NULL
+
+
+ALTER TABLE Symptom_Crouse 
+ALTER COLUMN symptom_Id INTEGER NOT NULL
+
+ALTER TABLE Allergy_Crouse 
+ALTER COLUMN allergy_Id INTEGER NOT NULL
+
+ALTER TABLE Payment_Crouse 
+ALTER COLUMN payment_Id INTEGER NOT NULL
+
+ALTER TABLE Treatment_Crouse 
+ALTER COLUMN treatment_Id INTEGER NOT NULL
+
+ALTER TABLE Condition_Crouse 
+ALTER COLUMN condition_Id INTEGER NOT NULL
+
+
+ALTER TABLE Symptom_SU
+ADD CONSTRAINT pk PRIMARY KEY(symptom_Id,su_Appointmentid)
+
+ALTER TABLE Allergy_SU
+ADD CONSTRAINT pk_allergysu PRIMARY KEY(allergy_Id,su_Appointmentid)
+
+ALTER TABLE Payment_SU
+ADD CONSTRAINT pk_paymentsu PRIMARY KEY(payment_Id,su_Appointmentid)
+
+ALTER TABLE Treatment_SU
+ADD CONSTRAINT pk_treatmentsu PRIMARY KEY(treatment_Id,su_Appointmentid)
+
+ALTER TABLE Condition_SU
+ADD CONSTRAINT pk_conditionsu PRIMARY KEY(condition_Id,su_Appointmentid)
+
+
+ALTER TABLE Symptom_Crouse
+ADD CONSTRAINT pk_symptomcr PRIMARY KEY(symptom_Id,crouse_Appointmentid)
+
+ALTER TABLE Allergy_Crouse
+ADD CONSTRAINT pk_allergycr PRIMARY KEY(allergy_Id,crouse_Appointmentid)
+
+ALTER TABLE Payment_Crouse
+ADD CONSTRAINT pk_paymentcr PRIMARY KEY(payment_Id,crouse_Appointmentid)
+
+ALTER TABLE Treatment_Crouse
+ADD CONSTRAINT pk_treatmentcr PRIMARY KEY(treatment_Id,crouse_Appointmentid)
+
+ALTER TABLE Condition_Crouse
+ADD CONSTRAINT pk_conditioncr PRIMARY KEY(condition_Id,crouse_Appointmentid)
+
+
+CREATE TABLE Drug(
+
+drug_Id INTEGER NOT NULL,
+transaction_Id INTEGER NOT NULL,
+otcORprescription VARCHAR(20) NOT NULL,
+dosage VARCHAR(20) NOT NULL,
+drug_Name VARCHAR(20) NOT NULL,
+CONSTRAINT pk_drug PRIMARY KEY(drug_Id,transaction_Id)
+)
+
+CREATE TABLE Payment_CVS(
+
+payment_Id INTEGER NOT NULL,
+transaction_Id INTEGER NOT NULL FOREIGN KEY REFERENCES CVS_Transaction(transaction_Id),
+payment_Type VARCHAR(20) NOT NULL,
+amount VARCHAR(20) NOT NULL,
+CONSTRAINT pk_CVS PRIMARY KEY(payment_Id,transaction_Id)
+)
+
+ALTER TABLE Drug
+ADD CONSTRAINT fk_Drug FOREIGN KEY(transaction_Id) REFERENCES CVS_Transaction(transaction_Id)
+
+
+
+INSERT INTO Student(su_Id,first_Name,last_Name,age,sex,email,phone) VALUES ('1','Michael','Clarke','21','M','mc@syr.edu','12345678');
+INSERT INTO Student(su_Id,first_Name,last_Name,age,sex,email,phone) VALUES ('2','Graem','Smith','21','M','gs@syr.edu','11234567');
+INSERT INTO Student(su_Id,first_Name,last_Name,age,sex,email,phone) VALUES ('3','Sachin','Tendulkar','22','M','srt@syr.edu','11145678');
+INSERT INTO Student(su_Id,first_Name,last_Name,age,sex,email,phone) VALUES ('4','Virat','Kholi','21','M','vk@syr.edu','11115678');
+INSERT INTO Student(su_Id,first_Name,last_Name,age,sex,email,phone) VALUES ('5','Brian','Lara','24','M','bl@syr.edu','11111678');
+
+SELECT * FROM Student
+
+INSERT INTO SU_Health(su_Appointmentid,date,doctor_Name,su_Id)VALUES('111','2015-8-4','Brendon','1');
+INSERT INTO SU_Health(su_Appointmentid,date,doctor_Name,su_Id)VALUES('112','2015-9-4','Kent','1');
+INSERT INTO SU_Health(su_Appointmentid,date,doctor_Name,su_Id)VALUES('113','2015-8-4','Stewart','3');
+INSERT INTO SU_Health(su_Appointmentid,date,doctor_Name,su_Id)VALUES('114','2015-7-4','Nicole','4');
+INSERT INTO SU_Health(su_Appointmentid,date,doctor_Name,su_Id)VALUES('115','2015-5-4','Jen','5');
+
+SELECT * FROM SU_Health
+
+INSERT INTO Symptom_SU(symptom_Id,su_Appointmentid,description) VALUES('1','111','Increase in body temperature');
+INSERT INTO Symptom_SU(symptom_Id,su_Appointmentid,description) VALUES('2','111','Muscle pain');
+INSERT INTO Symptom_SU(symptom_Id,su_Appointmentid,description) VALUES('1','112','Increase in body temperature');
+INSERT INTO Symptom_SU(symptom_Id,su_Appointmentid,description) VALUES('1','113','Severe headache');
+INSERT INTO Symptom_SU(symptom_Id,su_Appointmentid,description) VALUES('2','113','Stomach pain');
+
+SELECT * FROM Symptom_SU
+
+INSERT INTO Treatment_SU(treatment_Id,su_Appointmentid,description)VALUES('1','111','Body pain');
+INSERT INTO Treatment_SU(treatment_Id,su_Appointmentid,description)VALUES('2','111','Cramp');
+INSERT INTO Treatment_SU(treatment_Id,su_Appointmentid,description)VALUES('1','112','High Fever');
+INSERT INTO Treatment_SU(treatment_Id,su_Appointmentid,description)VALUES('2','112','Head ache');
+INSERT INTO Treatment_SU(treatment_Id,su_Appointmentid,description)VALUES('1','113','Weak muscles');
+
+SELECT * FROM Treatment_SU
+
+INSERT INTO  Allergy_SU(allergy_Id,su_Appointmentid,description)VALUES('1','111','paracetamol');
+INSERT INTO  Allergy_SU(allergy_Id,su_Appointmentid,description)VALUES('2','111','fluride');
+INSERT INTO  Allergy_SU(allergy_Id,su_Appointmentid,description)VALUES('1','112','paracetamol');
+INSERT INTO  Allergy_SU(allergy_Id,su_Appointmentid,description)VALUES('2','112','asprin');
+INSERT INTO  Allergy_SU(allergy_Id,su_Appointmentid,description)VALUES('1','113','paracetamol');
+
+SELECT * FROM Allergy_SU
+
+INSERT INTO Condition_SU (condition_Id,su_Appointmentid,description)VALUES('1','111','fracture in elbow');
+INSERT INTO Condition_SU (condition_Id,su_Appointmentid,description)VALUES('2','111','fracture in right wrist');
+INSERT INTO Condition_SU (condition_Id,su_Appointmentid,description)VALUES('1','112','stomach pain');
+
+SELECT * FROM Condition_SU
+
+INSERT INTO Payment_SU(payment_Id,su_Appointmentid,payment_Type,amount)VALUES('1','111','credit card','2000');
+INSERT INTO Payment_SU(payment_Id,su_Appointmentid,payment_Type,amount)VALUES('2','111','credit card','1000');
+INSERT INTO Payment_SU(payment_Id,su_Appointmentid,payment_Type,amount)VALUES('1','112','debit card','2000');
+INSERT INTO Payment_SU(payment_Id,su_Appointmentid,payment_Type,amount)VALUES('2','112','credit card','4000');
+INSERT INTO Payment_SU(payment_Id,su_Appointmentid,payment_Type,amount)VALUES('1','113','cash','2000');
+
+SELECT * FROM Payment_SU
+
+INSERT INTO Crouse(crouse_Appointmentid,date,doctor_Name,su_Id)VALUES('222','2015-2-4','Kevin','4');
+INSERT INTO Crouse(crouse_Appointmentid,date,doctor_Name,su_Id)VALUES('223','2015-2-4','Kevin','5');
+INSERT INTO Crouse(crouse_Appointmentid,date,doctor_Name,su_Id)VALUES('224','2015-4-4','Brian','3');
+INSERT INTO Crouse(crouse_Appointmentid,date,doctor_Name,su_Id)VALUES('225','2015-5-4','Kevin','4');
+INSERT INTO Crouse(crouse_Appointmentid,date,doctor_Name,su_Id)VALUES('226','2015-7-4','Greg','5');
+
+SELECT * FROM Crouse
+
+INSERT INTO Symptom_Crouse(symptom_Id,crouse_Appointmentid,description)VALUES('1','222','fever');
+INSERT INTO Symptom_Crouse(symptom_Id,crouse_Appointmentid,description)VALUES('2','222','head ache');
+INSERT INTO Symptom_Crouse(symptom_Id,crouse_Appointmentid,description)VALUES('1','223','muscle pain');
+INSERT INTO Symptom_Crouse(symptom_Id,crouse_Appointmentid,description)VALUES('2','223','head ache');
+INSERT INTO Symptom_Crouse(symptom_Id,crouse_Appointmentid,description)VALUES('1','224','stomach ache');
+
+SELECT * FROM Symptom_Crouse
+
+INSERT INTO Treatment_Crouse(treatment_Id,crouse_Appointmentid,description)VALUES('1','222','body pain');
+INSERT INTO Treatment_Crouse(treatment_Id,crouse_Appointmentid,description)VALUES('2','222','muscle strain');
+INSERT INTO Treatment_Crouse(treatment_Id,crouse_Appointmentid,description)VALUES('1','223','fever');
+INSERT INTO Treatment_Crouse(treatment_Id,crouse_Appointmentid,description)VALUES('2','223','haed ache');
+INSERT INTO Treatment_Crouse(treatment_Id,crouse_Appointmentid,description)VALUES('1','224','body pain');
+
+SELECT * FROM Treatment_Crouse
+
+INSERT INTO Allergy_Crouse(allergy_Id,crouse_Appointmentid,description)VALUES('1','222','paracetamol');
+INSERT INTO Allergy_Crouse(allergy_Id,crouse_Appointmentid,description)VALUES('2','222','aspirin');
+INSERT INTO Allergy_Crouse(allergy_Id,crouse_Appointmentid,description)VALUES('1','223','paracetamol');
+INSERT INTO Allergy_Crouse(allergy_Id,crouse_Appointmentid,description)VALUES('1','224','paracetamol');
+INSERT INTO Allergy_Crouse(allergy_Id,crouse_Appointmentid,description)VALUES('2','224','chlorine');
+
+SELECT * FROM Allergy_Crouse
+
+INSERT INTO Condition_Crouse(condition_Id,crouse_Appointmentid,description)VALUES('1','222','fracture')
+INSERT INTO Condition_Crouse(condition_Id,crouse_Appointmentid,description)VALUES('2','222','knee pain')
+INSERT INTO Condition_Crouse(condition_Id,crouse_Appointmentid,description)VALUES('1','223','fracture')
+
+SELECT * FROM Condition_Crouse
+
+INSERT INTO Payment_Crouse(payment_Id,crouse_Appointmentid,payment_Type,amount)VALUES('1','222','credit card','2000')
+INSERT INTO Payment_Crouse(payment_Id,crouse_Appointmentid,payment_Type,amount)VALUES('2','222','credit card','4000')
+INSERT INTO Payment_Crouse(payment_Id,crouse_Appointmentid,payment_Type,amount)VALUES('1','223','credit card','2000')
+INSERT INTO Payment_Crouse(payment_Id,crouse_Appointmentid,payment_Type,amount)VALUES('2','223','debit card','5000')
+INSERT INTO Payment_Crouse(payment_Id,crouse_Appointmentid,payment_Type,amount)VALUES('1','224','credit card','2000')
+
+SELECT * FROM Payment_Crouse
+
+
+INSERT INTO	CVS_Transaction(transaction_Id,date,su_Id)VALUES('1','2015-5-4','1');
+INSERT INTO	CVS_Transaction(transaction_Id,date,su_Id)VALUES('2','2015-7-4','2');
+INSERT INTO	CVS_Transaction(transaction_Id,date,su_Id)VALUES('3','2015-5-4','1');
+INSERT INTO	CVS_Transaction(transaction_Id,date,su_Id)VALUES('4','2015-5-4','5');
+INSERT INTO	CVS_Transaction(transaction_Id,date,su_Id)VALUES('5','2015-5-4','4');
+INSERT INTO	CVS_Transaction(transaction_Id,date,su_Id)VALUES('6','2015-7-4','2');
+INSERT INTO	CVS_Transaction(transaction_Id,date,su_Id)VALUES('7','2015-8-4','2');
+INSERT INTO	CVS_Transaction(transaction_Id,date,su_Id)VALUES('8','2015-2-4','1');
+INSERT INTO	CVS_Transaction(transaction_Id,date,su_Id)VALUES('9','2015-5-4','4');
+
+SELECT * FROM CVS_Transaction
+
+INSERT INTO Drug(drug_Id,transaction_Id,otcORprescription,dosage,drug_Name)VALUES('1','1','otc','as reqd','nyquil');
+INSERT INTO Drug(drug_Id,transaction_Id,otcORprescription,dosage,drug_Name)VALUES('1','2','otc','as reqd','nyquil');
+INSERT INTO Drug(drug_Id,transaction_Id,otcORprescription,dosage,drug_Name)VALUES('2','3','otc','as reqd','nyquil-power');
+INSERT INTO Drug(drug_Id,transaction_Id,otcORprescription,dosage,drug_Name)VALUES('2','4','otc','as reqd','nyquil-power');
+INSERT INTO Drug(drug_Id,transaction_Id,otcORprescription,dosage,drug_Name)VALUES('1','5','otc','as reqd','nyquil');
+INSERT INTO Drug(drug_Id,transaction_Id,otcORprescription,dosage,drug_Name)VALUES('3','6','otc','as reqd','nyquil-extra');
+INSERT INTO Drug(drug_Id,transaction_Id,otcORprescription,dosage,drug_Name)VALUES('3','7','otc','as reqd','nyquil-extra');
+INSERT INTO Drug(drug_Id,transaction_Id,otcORprescription,dosage,drug_Name)VALUES('3','8','otc','as reqd','nyquil-extra');
+INSERT INTO Drug(drug_Id,transaction_Id,otcORprescription,dosage,drug_Name)VALUES('2','9','otc','as reqd','nyquil-power');
+
+SELECT * FROM Drug
+
+INSERT INTO Payment_CVS(payment_Id,transaction_Id,payment_Type,amount)VALUES('1','1','credit','40');
+INSERT INTO Payment_CVS(payment_Id,transaction_Id,payment_Type,amount)VALUES('1','2','credit','40');
+INSERT INTO Payment_CVS(payment_Id,transaction_Id,payment_Type,amount)VALUES('1','3','credit','50');
+INSERT INTO Payment_CVS(payment_Id,transaction_Id,payment_Type,amount)VALUES('1','4','credit','50');
+INSERT INTO Payment_CVS(payment_Id,transaction_Id,payment_Type,amount)VALUES('1','5','credit','40');
+INSERT INTO Payment_CVS(payment_Id,transaction_Id,payment_Type,amount)VALUES('1','6','credit','70');
+INSERT INTO Payment_CVS(payment_Id,transaction_Id,payment_Type,amount)VALUES('1','7','credit','70');
+INSERT INTO Payment_CVS(payment_Id,transaction_Id,payment_Type,amount)VALUES('1','8','credit','70');
+INSERT INTO Payment_CVS(payment_Id,transaction_Id,payment_Type,amount)VALUES('1','9','credit','50');
+
+SELECT * FROM Payment_CVS
+
+SELECT  b.treatment_Id,b.su_Appointmentid,b.description,a.su_Id,a.first_Name,a.last_Name FROM Student a INNER JOIN SU_Health c ON (a.su_Id=c.su_Id) INNER JOIN
+treatment_SU b ON (c.su_Appointmentid=b.su_Appointmentid)
+
+select * from Treatment_SU
+select * from SU_Health
+
+CREATE TABLE  Treatment_SU_Old(
+treatment_Id INTEGER NOT NULL,
+su_Appointmentid INTEGER NOT NULL,
+description VARCHAR(50) NOT NULL,
+CONSTRAINT pk_old PRIMARY KEY(treatment_Id,su_Appointmentid)
+)
+
+/*trigger to update old values*/
+CREATE TRIGGER update_treatment ON Treatment_SU
+AFTER UPDATE 
+AS 
+INSERT INTO Treatment_SU_Old(treatment_Id,su_Appointmentid,description) 
+SELECT treatment_Id,su_Appointmentid,description 
+FROM DELETED 
+
+SELECT * FROM Treatment_SU
+/*updating the table*/
+UPDATE Treatment_SU SET description='Severe Cramp' WHERE treatment_Id=2 AND su_Appointmentid=111
+
+SELECT * FROM Treatment_SU_Old
+SELECT * FROM Symptom_SU
+
+/*transaction to check insert*/
+BEGIN TRANSACTION  insert_Symptom_SU
+GO
+INSERT INTO Symptom_SU(symptom_Id,su_Appointmentid,description) VALUES('3','111','wrist pain')
+INSERT INTO Symptom_SU(symptom_Id,su_Appointmentid,description) VALUES('2','112','stomach pain')
+COMMIT TRANSACTION insert_Symptom_SU
+
+ROLLBACK TRANSACTION insert_Symptom_SU
+
+
