@@ -1,0 +1,4 @@
+SQL server is used to create the backend database
+
+Access form functionality is used to create forms linked with the database.Forms inlcude null value validation and other functionalities 
+such as report generation
