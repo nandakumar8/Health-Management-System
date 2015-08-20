@@ -25,4 +25,4 @@ At Crouse
 At CVS
 - CVS is the primary drug store located on campus. Most Syracuse university students buy drugs from CVS
 - CVS maintains a transaction management system and they do not maintain the drug history of their customers
-- The university can coordinate with CVS Health to build a database system, where the pharmacists can ask SU students to use their ID card while buying drugs, so that their drug history can be recorded into the system.
+- The university can coordinate with CVS Health to build a database system, where the pharmacists can ask SU students to use their ID card while buying drugs, so that their drug history can be recorded into the system
